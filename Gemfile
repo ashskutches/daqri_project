@@ -2,14 +2,17 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.0'
-
 gem 'rails-api'
-
-# Use sqlite3 as the database for Active Record
-gem 'rails-api'
-
 gem 'pg'
+gem 'jquery-rails'
+gem 'guard'
+gem 'rspec-rails', :group => [:test, :development]
 
+group :test do
+  gem 'capybara'
+  gem 'factory_girl_rails'
+  gem 'guard-rspec'
+end
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

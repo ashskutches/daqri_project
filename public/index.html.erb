@@ -29,58 +29,68 @@
     <%= javascript_include_tag "application" %>
     <script type="text/javascript" charset="utf-8">
       $(function() {
-          function addContact(contact) {
-          $('#contacts').append('<tr>' + '<td>' + contact.name + '</td>' +  ' - ' + '<td>' + contact.number + '</td>' +'</tr>');
-          }
+        function addContact(contact) {
+        $('#contacts tbody').append('<tr>' + '<td>' + contact.name + '</td>' +  ' - ' + '<td>' + contact.number + '</td>' +'</tr>');
+        }
 
-          $('#new-contact').submit(function(e) {
-            $.post('/contacts', $(this).serialize(), addContact);
-            this.reset();
-            e.preventDefault();
-            $('#myModal').modal('toggle');
-            });
-
-          $.getJSON('/contacts', function(contacts) {
-            $.each(contacts, function() { addContact(this); });
-            });
+        $('#new-contact').submit(function(e) {
+          $.post('/contacts', $(this).serialize(), addContact);
+          this.reset();
+          e.preventDefault();
+          $('#myModal').modal('toggle');
           });
-</script>
-<body>
-  <div id="container">
-    <div class="row">
-      <div class="span9"> 
-        <h1>Contacts</h1>
-        <table id="contacts" class='table'>
-          <tr>
-            <th>Name</th>
-            <th>Number</th>
-          </tr>
-        </table>
-      </div>
-      <div class="span2">
-        <a href="#myModal" role="button" class="btn btn-primary" data-toggle="modal">Add Contact</a>
-      </div>
-    </div>
-  </div>
-  <div id="footer">
-    <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3 id="myModalLabel">Modal header</h3>
-      </div>
 
-      <form id="new-contact" >
-        <div class="modal-body">
-          <label for="name">Name</label>
-          <input type="text" name="contact[name]" id="contact_name">
-          <label for="number">Number</label>
-          <input type="text" name="contact[number]" id="contact_number">
+        $.getJSON('/contacts', function(contacts) {
+          $.each(contacts, function() { addContact(this); });
+            $(document).ready(function() { 
+              // call the tablesorter plugin 
+              $("#contacts").tablesorter(); 
+            }); 
+          });
+
+      });
+    </script>
+  </head>
+  <body>
+    <div id="container">
+      <div class="row">
+        <div class="span9"> 
+          <h1>Contacts</h1>
+          <table id="contacts" class='table tablesorter'>
+            <thead> 
+              <tr>
+                <th>Name</th>
+                <th>Number</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
         </div>
-        <div class="modal-footer">
-          <input type="submit" class="btn btn-success" value="Add">
+        <div class="span2">
+          <a href="#myModal" role="button" class="btn btn-primary" data-toggle="modal">Add Contact</a>
         </div>
-      </form>
+      </div>
     </div>
-  </div>
-</body>
+    <div id="footer">
+      <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h3 id="myModalLabel">Modal header</h3>
+        </div>
+
+        <form id="new-contact" >
+          <div class="modal-body">
+            <label for="name">Name</label>
+            <input type="text" name="contact[name]" id="contact_name">
+            <label for="number">Number</label>
+            <input type="text" name="contact[number]" id="contact_number">
+          </div>
+          <div class="modal-footer">
+            <input type="submit" class="btn btn-success" value="Add">
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
 </html>

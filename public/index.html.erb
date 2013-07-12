@@ -53,17 +53,31 @@
           <ul id="contacts"></ul>
         </div>
         <div class="span2">
-          <button id="add-more" class="btn btn-primary">Add Contact</button>
+          <a href="#myModal" role="button" class="btn btn-primary" data-toggle="modal">Add Contact</a>
         </div>
       </div>
     </div>
     <div id="footer">
-      Footer
-      <form id="new-contact">
-        <input type="text" name="contact[name]" id="contact_name">
-        <input type="text" name="number[name]" id="contact_number">
-        <input type="submit" value="Add">
+    <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Modal header</h3>
+      </div>
+
+      <form id="new-contact" >
+        <div class="modal-body">
+          <label for="name">Name</label>
+          <input type="text" name="contact[name]" id="contact_name">
+          <label for="number">Number</label>
+          <input type="text" name="number[name]" id="contact_number">
+        </div>
+        <div class="modal-footer">
+          <input type="submit" class="btn btn-success" value="Add">
+      </div>
       </form>
+
+
+    </div>
     </div>
   </body>
 </html>

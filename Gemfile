@@ -9,6 +9,7 @@ gem 'guard'
 gem 'rspec-rails', :group => [:test, :development]
 gem "therubyracer"
 gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
+gem 'uglifier'
 gem "twitter-bootstrap-rails"
 
 gem 'rails_12factor', group: :production

@@ -24,8 +24,13 @@
         background-color: #FFF;
         padding: 20px 40px;
       }
-      .table tr:hover {
+      .table tr.contact:hover {
         background-color: #4B7399;
+        cursor: hand;
+        cursor: pointer;
+      }
+      .table th {
+        background-color: #48D1CC;
         cursor: hand;
         cursor: pointer;
       }
@@ -49,7 +54,8 @@
         $.getJSON('/contacts', function(contacts) {
           $.each(contacts, function() { addContact(this); });
           // call the tablesorter plugin 
-          $("#contacts").delegate("tr", "click", function(){
+          $('#contacts').tablesorter();
+          $("#contacts").delegate("tr.contact", "click", function(){
             var name = $(this).children('#name').text();
             var number = $(this).children('#number').text();
             $('#edit-contact-modal').modal('toggle');

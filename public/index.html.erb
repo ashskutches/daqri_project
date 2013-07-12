@@ -27,37 +27,37 @@
     </style>
     <%= stylesheet_link_tag    "application", :media => "all" %>
     <%= javascript_include_tag "application" %>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
     <script type="text/javascript" charset="utf-8">
       $(function() {
-        function addContact(contact) {
-          $('#contacts').append('<li>' + contact.name + '</ul>');
-        }
+          function addContact(contact) {
+          $('#contacts').append('<li>' + contact.name + ' - ' + contact.number + '</li>');
+          }
 
-        $('#new_contact').submit(function(e) {
-          $.post('/contacts', $(this).serialize(), addContact);
-          this.reset();
-          e.preventDefault();
-        });
+          $('#new-contact').submit(function(e) {
+            $.post('/contacts', $(this).serialize(), addContact);
+            this.reset();
+            e.preventDefault();
+            $('#myModal').modal('toggle');
+            });
 
-        $.getJSON('/contacts', function(contacts) {
-          $.each(contacts, function() { addContact(this); });
-        });
-      });
-    </script>
-  <body>
-    <div id="container">
-      <div class="row">
-        <div class="span9"> 
-          <h1>Contacts</h1>
-          <ul id="contacts"></ul>
-        </div>
-        <div class="span2">
-          <a href="#myModal" role="button" class="btn btn-primary" data-toggle="modal">Add Contact</a>
-        </div>
+          $.getJSON('/contacts', function(contacts) {
+            $.each(contacts, function() { addContact(this); });
+            });
+          });
+</script>
+<body>
+  <div id="container">
+    <div class="row">
+      <div class="span9"> 
+        <h1>Contacts</h1>
+        <ul id="contacts"></ul>
+      </div>
+      <div class="span2">
+        <a href="#myModal" role="button" class="btn btn-primary" data-toggle="modal">Add Contact</a>
       </div>
     </div>
-    <div id="footer">
+  </div>
+  <div id="footer">
     <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -69,15 +69,13 @@
           <label for="name">Name</label>
           <input type="text" name="contact[name]" id="contact_name">
           <label for="number">Number</label>
-          <input type="text" name="number[name]" id="contact_number">
+          <input type="text" name="contact[number]" id="contact_number">
         </div>
         <div class="modal-footer">
           <input type="submit" class="btn btn-success" value="Add">
-      </div>
+        </div>
       </form>
-
-
     </div>
-    </div>
-  </body>
+  </div>
+</body>
 </html>

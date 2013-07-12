@@ -11,7 +11,7 @@
       a { color: #0000FF; }
 
       #container {
-        width: 90%;
+        width: 85%;
         margin: 0 auto;
         background-color: #FFF;
         padding: 20px 40px;
@@ -19,7 +19,7 @@
         min-height: 600px;
       }
       #footer {
-        width: 100%;
+        width: 85%;
         margin: 0 auto;
         background-color: #FFF;
         padding: 20px 40px;
@@ -30,7 +30,7 @@
     <script type="text/javascript" charset="utf-8">
       $(function() {
           function addContact(contact) {
-          $('#contacts').append('<li>' + contact.name + ' - ' + contact.number + '</li>');
+          $('#contacts').append('<tr>' + '<td>' + contact.name + '</td>' +  ' - ' + '<td>' + contact.number + '</td>' +'</tr>');
           }
 
           $('#new-contact').submit(function(e) {
@@ -50,7 +50,12 @@
     <div class="row">
       <div class="span9"> 
         <h1>Contacts</h1>
-        <ul id="contacts"></ul>
+        <table id="contacts" class='table'>
+          <tr>
+            <th>Name</th>
+            <th>Number</th>
+          </tr>
+        </table>
       </div>
       <div class="span2">
         <a href="#myModal" role="button" class="btn btn-primary" data-toggle="modal">Add Contact</a>

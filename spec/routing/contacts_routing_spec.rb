@@ -7,16 +7,8 @@ describe ContactsController do
       get("/contacts").should route_to("contacts#index")
     end
 
-    it "routes to #new" do
-      get("/contacts/new").should route_to("contacts#new")
-    end
-
     it "routes to #show" do
       get("/contacts/1").should route_to("contacts#show", :id => "1")
-    end
-
-    it "routes to #edit" do
-      get("/contacts/1/edit").should route_to("contacts#edit", :id => "1")
     end
 
     it "routes to #create" do

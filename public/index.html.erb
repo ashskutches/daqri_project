@@ -53,18 +53,33 @@
           $('#edit-contact #id').text(id);
         });
 
+        $("#edit-contact").delegate("#remove", "click", function(){
+          var id = $('#edit-contact #id').text()
+          $.ajax({
+            url: "/contacts/" + id,
+            type: "DELETE",
+            dataType: "json",
+            data: {"_method":"delete"},
+            success: function(data) {
+              $('tr.contact').remove();
+              addContactsToTable();
+              $('#edit-contact-modal').modal('toggle');
+            }
+          });
+
+        });
+
 
 
         function addContact(contact) {
-        $('#contacts tbody').append("<tr class='contact'>" + "<td id='name'>" + contact.name + '</td>' +  ' - ' + "<td id='number'>" + contact.number + '</td>' + "<td style='visibility: hidden' id='id'>" + contact.id + '</td>' +'</tr>');
-        // call the tablesorter plugin 
+          $('#contacts tbody').append("<tr class='contact'>" + "<td id='name'>" + contact.name + '</td>' +  ' - ' + "<td id='number'>" + contact.number + '</td>' + "<td style='visibility: hidden' id='id'>" + contact.id + '</td>' +'</tr>');
 
-        // let the plugin know that we made a update 
-        $("#contacts").trigger("update"); 
-        // set sorting column and direction, this will sort on the 2nd col
-        var sorting = [[1,0]]; 
-        // sort on the 2nd column 
-        $("#myTable").trigger("sorton",[sorting]);
+          // let the plugin know that we made a update 
+          $("#contacts").trigger("update"); 
+          // set sorting column and direction, this will sort on the 2nd col
+          var sorting = [[1,0]]; 
+          // sort on the 2nd column 
+          $("#myTable").trigger("sorton",[sorting]);
 
         }
 
@@ -76,12 +91,12 @@
         });
 
         $('#edit-contact').submit(function(e) {
-          var thing = $(this).serializeArray();
+          var data = $(this).serializeArray();
           var id    = $('#edit-contact #id').text()
           $.ajax({
             type: 'PUT',
             url:  '/contacts/' + id,
-            data: thing,
+            data: data,
             dataType: "JSON",
             success: function(data) {
               $('tr.contact').remove();
@@ -98,11 +113,6 @@
             $.each(contacts, function() { addContact(this); });
           });
         }
-
-
-
-
-
       });
     </script>
   </head>
@@ -162,6 +172,7 @@
             <div id="id"></div>
           </div>
           <div class="modal-footer">
+            <input href="delete" id="remove" class="btn btn-danger pull-left" value="remove">
             <input type="submit" class="btn btn-success" value="Add">
           </div>
         </form>

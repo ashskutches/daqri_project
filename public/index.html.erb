@@ -39,8 +39,33 @@
     <%= javascript_include_tag "application" %>
     <script type="text/javascript" charset="utf-8">
       $(function() {
+
+        addContactsToTable();
+        $("#contacts").tablesorter();
+
+        $("#contacts").delegate("tr.contact", "click", function(){
+          var name = $(this).children('#name').text();
+          var number = $(this).children('#number').text();
+          var id = $(this).children('#id').text();
+          $('#edit-contact-modal').modal('toggle');
+          $('#edit-contact #contact_name').val(name);
+          $('#edit-contact #contact_number').val(number);
+          $('#edit-contact #id').text(id);
+        });
+
+
+
         function addContact(contact) {
-          $('#contacts tbody').append("<tr class='contact'>" + "<td id='name'>" + contact.name + '</td>' +  ' - ' + "<td id='number'>" + contact.number + '</td>' +'</tr>');
+        $('#contacts tbody').append("<tr class='contact'>" + "<td id='name'>" + contact.name + '</td>' +  ' - ' + "<td id='number'>" + contact.number + '</td>' + "<td style='visibility: hidden' id='id'>" + contact.id + '</td>' +'</tr>');
+        // call the tablesorter plugin 
+
+        // let the plugin know that we made a update 
+        $("#contacts").trigger("update"); 
+        // set sorting column and direction, this will sort on the 2nd col
+        var sorting = [[1,0]]; 
+        // sort on the 2nd column 
+        $("#myTable").trigger("sorton",[sorting]);
+
         }
 
         $('#new-contact').submit(function(e) {
@@ -50,19 +75,34 @@
           $('#new-contact-modal').modal('toggle');
         });
 
-
-        $.getJSON('/contacts', function(contacts) {
-          $.each(contacts, function() { addContact(this); });
-          // call the tablesorter plugin 
-          $('#contacts').tablesorter();
-          $("#contacts").delegate("tr.contact", "click", function(){
-            var name = $(this).children('#name').text();
-            var number = $(this).children('#number').text();
-            $('#edit-contact-modal').modal('toggle');
-            $('#edit-contact #contact_name').val(name);
-            $('#edit-contact #contact_number').val(number);
+        $('#edit-contact').submit(function(e) {
+          var thing = $(this).serializeArray();
+          var id    = $('#edit-contact #id').text()
+          $.ajax({
+            type: 'PUT',
+            url:  '/contacts/' + id,
+            data: thing,
+            dataType: "JSON",
+            success: function(data) {
+              $('tr.contact').remove();
+              addContactsToTable();
+            }
           });
+          this.reset();
+          e.preventDefault();
+          $('#edit-contact-modal').modal('toggle');
         });
+
+        function addContactsToTable() { 
+          $.getJSON('/contacts', function(contacts) {
+            $.each(contacts, function() { addContact(this); });
+          });
+        }
+
+
+
+
+
       });
     </script>
   </head>
@@ -119,6 +159,7 @@
             <input type="text" name="contact[name]" id="contact_name">
             <label for="number">Number</label>
             <input type="text" name="contact[number]" id="contact_number">
+            <div id="id"></div>
           </div>
           <div class="modal-footer">
             <input type="submit" class="btn btn-success" value="Add">
